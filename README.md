@@ -16,3 +16,7 @@ npx skills@latest add Klerith/fernando-skills
 ```
 
 ## Otros temas:
+
+```
+
+```
