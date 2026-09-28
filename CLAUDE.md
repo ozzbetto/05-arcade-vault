@@ -10,6 +10,10 @@ Arcade Vault ("Es una plataforma para jugar online y competir por la mayor canti
 
 Stack: Next.js 16.3.5, React 19.2.8, TypeScript, Tailwind CSS v4 (via `@tailwindcss/postcss`), ESLint 9 flat config (`eslint-config-next`).
 
+## Skills
+
+Usa siempre /frontend-desing para diseñar interfaces de usuario
+
 ## Commands
 
 - `npm run dev` — start the dev server
