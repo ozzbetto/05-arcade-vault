@@ -1,6 +1,6 @@
 # 01 — MVP: pantallas de Arcade Vault
 
-**Estado:** Approved
+**Estado:** Implemented
 **Depende de:** —
 **Fecha:** 2026-09-28
 
@@ -55,17 +55,17 @@ No se introduce persistencia real ni backend. Estructuras nuevas (todas en memor
 
 ## Criterios de aceptación
 
-- [ ] `npm run dev` levanta la app y `/` muestra la Biblioteca con hero, buscador, chips de categoría y grid de tarjetas de los 8 juegos mock.
-- [ ] Buscar por nombre y filtrar por categoría en `/` actualiza el grid sin recargar la página; el estado vacío ("NO HAY RESULTADOS") se muestra cuando no hay coincidencias.
-- [ ] Click en una tarjeta o en "JUGAR" navega a `/juegos/[id]` con la info, tags, stats y leaderboard del juego correspondiente.
-- [ ] "JUGAR AHORA" en el detalle navega a `/juegos/[id]/jugar`, que muestra el HUD (jugador, puntuación, vidas, nivel), la pantalla CRT animada, y permite pausar/reanudar y finalizar la partida.
-- [ ] Al finalizar la partida se puede guardar la puntuación (con iniciales editables) y aparece la confirmación; el modal ofrece "JUGAR DE NUEVO" y "VOLVER AL VAULT".
-- [ ] `/auth` permite alternar entre "Iniciar Sesión" / "Crear Cuenta", enviar el formulario (mock, sin validación de backend) o entrar como invitado, y redirige a `/` actualizando el estado global de usuario.
-- [ ] El `Nav` muestra "Iniciar Sesión" sin usuario y el nombre de usuario tras loguearse (mock), de forma consistente en todas las rutas; cerrar sesión vuelve a mostrar "Iniciar Sesión".
-- [ ] `/salon` muestra podio (top 3) y tabla de puntuaciones por juego seleccionado mediante chips, y agrega una fila "tu mejor marca" cuando hay usuario logueado.
-- [ ] El menú hamburguesa y panel lateral funcionan en viewport móvil (< 840px) en todas las rutas.
-- [ ] `npm run lint` y `npm run build` terminan sin errores.
-- [ ] No hay ningún juego jugable real: el Reproductor es una simulación puramente visual/CSS, sin lógica de colisiones, inputs de juego ni motor de juego.
+- [x] `npm run dev` levanta la app y `/` muestra la Biblioteca con hero, buscador, chips de categoría y grid de tarjetas de los 8 juegos mock.
+- [x] Buscar por nombre y filtrar por categoría en `/` actualiza el grid sin recargar la página; el estado vacío ("NO HAY RESULTADOS") se muestra cuando no hay coincidencias.
+- [x] Click en una tarjeta o en "JUGAR" navega a `/juegos/[id]` con la info, tags, stats y leaderboard del juego correspondiente.
+- [x] "JUGAR AHORA" en el detalle navega a `/juegos/[id]/jugar`, que muestra el HUD (jugador, puntuación, vidas, nivel), la pantalla CRT animada, y permite pausar/reanudar y finalizar la partida.
+- [x] Al finalizar la partida se puede guardar la puntuación (con iniciales editables) y aparece la confirmación; el modal ofrece "JUGAR DE NUEVO" y "VOLVER AL VAULT".
+- [x] `/auth` permite alternar entre "Iniciar Sesión" / "Crear Cuenta", enviar el formulario (mock, sin validación de backend) o entrar como invitado, y redirige a `/` actualizando el estado global de usuario.
+- [x] El `Nav` muestra "Iniciar Sesión" sin usuario y el nombre de usuario tras loguearse (mock), de forma consistente en todas las rutas; cerrar sesión vuelve a mostrar "Iniciar Sesión".
+- [x] `/salon` muestra podio (top 3) y tabla de puntuaciones por juego seleccionado mediante chips, y agrega una fila "tu mejor marca" cuando hay usuario logueado.
+- [x] El menú hamburguesa y panel lateral funcionan en viewport móvil (< 840px) en todas las rutas.
+- [x] `npm run lint` y `npm run build` terminan sin errores.
+- [x] No hay ningún juego jugable real: el Reproductor es una simulación puramente visual/CSS, sin lógica de colisiones, inputs de juego ni motor de juego.
 
 ## Decisiones tomadas y descartadas
 
