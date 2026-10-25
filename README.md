@@ -15,8 +15,25 @@ https://github.com/Klerith/fernando-skills
 npx skills@latest add Klerith/fernando-skills
 ```
 
-## Otros temas:
+## Estado
 
+MVP visual completo (spec 01): Biblioteca, Detalle de juego, Reproductor (simulado), Auth (mock) y Salón de la Fama. Los datos, la sesión y las puntuaciones son mock (`localStorage`); aún no hay backend ni juegos jugables.
+
+| Ruta | Pantalla |
+|---|---|
+| `/` | Biblioteca |
+| `/juegos/[id]` | Detalle de juego |
+| `/juegos/[id]/jugar` | Reproductor |
+| `/auth` | Iniciar sesión / crear cuenta / invitado |
+| `/salon` | Salón de la Fama |
+
+## Desarrollo
+
+```bash
+npm install
+npm run dev     # http://localhost:3000
+npm run lint
+npm run build
 ```
 
-```
+Las specs están en `specs/`.
