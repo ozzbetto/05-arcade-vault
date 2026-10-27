@@ -1,6 +1,6 @@
 # 02 — Home page (landing)
 
-**Estado:** Approved
+**Estado:** Implemented
 **Depende de:** SPEC 01
 **Fecha:** 2026-10-25
 
@@ -49,16 +49,16 @@ Las features, el plan de precios y las 3 FAQ son contenido estático del compone
 
 ## Criterios de aceptación
 
-- [ ] `/` muestra la Home con las 6 secciones del template (hero, por qué, juegos, stats + actividad, precios, CTA final) en el orden del template.
-- [ ] Las secciones con `.reveal` aparecen con animación al hacer scroll y no quedan invisibles si se recarga la página a mitad de scroll.
-- [ ] La sección de juegos muestra los primeros 6 de `GAMES`; click en una mini-card navega a `/juegos/[id]`.
-- [ ] "EXPLORAR JUEGOS", "VER TODOS LOS JUEGOS" e "INSERTAR MONEDA" navegan a `/biblioteca`; "CREAR CUENTA" y "EMPEZAR GRATIS" a `/auth`; "VER SALÓN" a `/salon`.
-- [ ] `/biblioteca` muestra la Biblioteca de spec 01 con búsqueda y filtros funcionando.
-- [ ] Tras login/registro/invitado en `/auth` se redirige a `/biblioteca` y ningún enlace interno apunta a la Biblioteca en `/`.
-- [ ] El `Nav` muestra "Inicio" en desktop y panel móvil; solo está activo en `/`, y "Biblioteca" está activo en `/biblioteca` y `/juegos/*`.
-- [ ] Stats y actividad en vivo se generan desde `lib/data.ts` (no hay arrays literales de jugadores/puntajes en el componente) y son idénticos entre renders (sin warnings de hidratación en consola).
-- [ ] La Home se ve correcta en viewport < 840px y en desktop, sin scroll horizontal.
-- [ ] `npm run lint` y `npm run build` terminan sin errores.
+- [x] `/` muestra la Home con las 6 secciones del template (hero, por qué, juegos, stats + actividad, precios, CTA final) en el orden del template.
+- [x] Las secciones con `.reveal` aparecen con animación al hacer scroll y no quedan invisibles si se recarga la página a mitad de scroll.
+- [x] La sección de juegos muestra los primeros 6 de `GAMES`; click en una mini-card navega a `/juegos/[id]`.
+- [x] "EXPLORAR JUEGOS", "VER TODOS LOS JUEGOS" e "INSERTAR MONEDA" navegan a `/biblioteca`; "CREAR CUENTA" y "EMPEZAR GRATIS" a `/auth`; "VER SALÓN" a `/salon`.
+- [x] `/biblioteca` muestra la Biblioteca de spec 01 con búsqueda y filtros funcionando.
+- [x] Tras login/registro/invitado en `/auth` se redirige a `/biblioteca` y ningún enlace interno apunta a la Biblioteca en `/`.
+- [x] El `Nav` muestra "Inicio" en desktop y panel móvil; solo está activo en `/`, y "Biblioteca" está activo en `/biblioteca` y `/juegos/*`.
+- [x] Stats y actividad en vivo se generan desde `lib/data.ts` (no hay arrays literales de jugadores/puntajes en el componente) y son idénticos entre renders (sin warnings de hidratación en consola).
+- [x] La Home se ve correcta en viewport < 840px y en desktop, sin scroll horizontal.
+- [x] `npm run lint` y `npm run build` terminan sin errores.
 
 ## Decisiones tomadas y descartadas
 
