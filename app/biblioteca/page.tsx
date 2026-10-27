@@ -1,6 +1,6 @@
 "use client";
 
-// ===== app/page.tsx — Biblioteca (portado de references/templates/biblioteca.jsx) =====
+// ===== app/biblioteca/page.tsx — Biblioteca (portado de references/templates/biblioteca.jsx) =====
 
 import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -59,7 +59,7 @@ function GameCard({ game, onSelect }: { game: Game; onSelect: (game: Game) => vo
   );
 }
 
-export default function Home() {
+export default function Biblioteca() {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("TODOS");

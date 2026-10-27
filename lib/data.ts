@@ -135,3 +135,40 @@ export function seededScores(seed: number, count = 12): ScoreRow[] {
   }
   return rows.sort((a, b) => b.score - a.score).map((r, i) => ({ ...r, rank: i + 1 }));
 }
+
+// ===== Home: stats y actividad derivadas de GAMES / seededScores =====
+
+export type HomeStat = { n: string; u: string; s: string };
+
+export type RecentScore = {
+  p: string;
+  g: string;
+  s: number;
+  t: string;
+  c: string;
+};
+
+export type TopPlayer = { r: number; p: string; s: number };
+
+// "12.4K" -> 12400
+const parsePlays = (plays: string) => Math.round(parseFloat(plays) * (plays.endsWith("K") ? 1000 : 1));
+
+export function homeStats(): HomeStat[] {
+  const totalPlays = GAMES.reduce((sum, g) => sum + parsePlays(g.plays), 0);
+  return [
+    { n: String(GAMES.length), u: "JUEGOS", s: "Y CONTANDO" },
+    { n: `${Math.round(totalPlays / 1000)}K`, u: "PARTIDAS", s: "JUGADAS EN TOTAL" },
+    { n: "GLOBAL", u: "RANKING", s: "COMPITE CON EL MUNDO" },
+  ];
+}
+
+export function recentScores(): RecentScore[] {
+  return GAMES.slice(0, 7).map((g, i) => {
+    const row = seededScores(g.id.length * 13 + i * 7 + 1, 1)[0];
+    return { p: row.name, g: g.title, s: row.score, t: `hace ${2 + i * 5} min`, c: g.color };
+  });
+}
+
+export function topToday(): TopPlayer[] {
+  return seededScores(2026, 5).map((r) => ({ r: r.rank, p: r.name, s: r.score }));
+}

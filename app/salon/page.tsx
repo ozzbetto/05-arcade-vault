@@ -89,7 +89,7 @@ export default function HallOfFamePage() {
       </div>
 
       <div style={{ textAlign: "center", marginTop: 32 }}>
-        <button className="btn lg" onClick={() => router.push("/")}>VOLVER A LA BIBLIOTECA</button>
+        <button className="btn lg" onClick={() => router.push("/biblioteca")}>VOLVER A LA BIBLIOTECA</button>
       </div>
     </div>
   );
