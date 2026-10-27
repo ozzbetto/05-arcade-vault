@@ -1,113 +1,198 @@
-"use client";
+// ===== app/page.tsx — Home / landing (portado de references/templates/home-about/home.jsx) =====
 
-// ===== app/page.tsx — Biblioteca (portado de references/templates/biblioteca.jsx) =====
+import Link from "next/link";
+import { GAMES, homeStats, recentScores, topToday } from "@/lib/data";
+import { FeatureIcon, type FeatureIconKind } from "@/components/home/FeatureIcon";
+import { FloatingSilhouettes } from "@/components/home/FloatingSilhouettes";
+import { MiniCard } from "@/components/home/MiniCard";
+import { Reveal } from "@/components/home/Reveal";
 
-import { useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import { CATS, GAMES, type Game } from "@/lib/data";
+const FEATURES: { i: FeatureIconKind; t: string; d: string; c: string }[] = [
+  { i: "GAMEPAD", t: "JUEGOS CLÁSICOS", d: "Arkanoid, Tetris, Snake y muchos más. Los mejores arcades de todos los tiempos en un solo lugar.", c: "cyan" },
+  { i: "FREE", t: "100% GRATIS", d: "Sin suscripciones, sin pagos ocultos. Todos los juegos disponibles de forma gratuita.", c: "yellow" },
+  { i: "TROPHY", t: "LADDER BOARDS", d: "Compite con jugadores de todo el mundo. Escala el ranking y demuestra quién es el mejor.", c: "magenta" },
+  { i: "ROCKET", t: "SIEMPRE CRECIENDO", d: "Agregamos nuevos juegos constantemente. Vuelve seguido, siempre habrá algo nuevo que jugar.", c: "green" },
+];
 
-function GameCard({ game, onSelect }: { game: Game; onSelect: (game: Game) => void }) {
-  const tiltRef = useRef<HTMLDivElement>(null);
-
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = tiltRef.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `translateY(-6px) rotateX(${-py * 6}deg) rotateY(${px * 8}deg)`;
-  };
-
-  const onLeave = () => {
-    const el = tiltRef.current;
-    if (!el) return;
-    el.style.transform = "";
-  };
-
-  return (
-    <div
-      ref={tiltRef}
-      className="card"
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      onClick={() => onSelect(game)}
-    >
-      <div className="cover">
-        <div className={"cover-bg " + game.cover}></div>
-        <div className="label">{game.cat}</div>
-      </div>
-      <div className="meta">
-        <div className="title">{game.title}</div>
-        <div className="desc">{game.short}</div>
-        <div className="row">
-          <div className="score-badge">
-            <span>MEJOR PUNTUACIÓN</span>
-            <b>{game.best.toLocaleString("es-ES")}</b>
-          </div>
-          <button
-            className={"btn " + (game.color === "magenta" ? "magenta" : game.color === "yellow" ? "yellow" : "")}
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect(game);
-            }}
-          >
-            JUGAR
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+const fmt = (n: number) => n.toLocaleString("es-ES");
 
 export default function Home() {
-  const router = useRouter();
-  const [q, setQ] = useState("");
-  const [cat, setCat] = useState("TODOS");
-
-  const filtered = useMemo(() => {
-    return GAMES.filter(
-      (g) => (cat === "TODOS" || g.cat === cat) && g.title.toLowerCase().includes(q.toLowerCase()),
-    );
-  }, [q, cat]);
-
-  const goToGame = (game: Game) => router.push(`/juegos/${game.id}`);
+  const stats = homeStats();
+  const recent = recentScores();
+  const top = topToday();
 
   return (
-    <div className="fade-in">
-      <section className="av-hero">
-        <h1 className="flicker">ARCADE VAULT</h1>
-        <div className="sub">
-          INSERTA UNA MONEDA PARA JUGAR <span className="blink">_</span>
+    <div className="home fade-in">
+      <Reveal />
+
+      {/* HERO */}
+      <section className="home-hero">
+        <FloatingSilhouettes />
+        <div className="home-hero-inner">
+          <div className="hero-eyebrow pixel neon-yellow">▸ INSERTA UNA MONEDA<span className="blink">_</span></div>
+          <h1 className="home-title">
+            <span className="line-1">EL ARCADE</span>
+            <span className="line-2">CLÁSICO ESTÁ</span>
+            <span className="line-3">DE VUELTA</span>
+          </h1>
+          <p className="home-sub">
+            Juega los mejores clásicos directamente en tu navegador.<br />
+            Sin descargas. Sin costo. Solo diversión.
+          </p>
+          <div className="home-ctas">
+            <Link href="/biblioteca" className="btn xl pulse">▶  EXPLORAR JUEGOS</Link>
+            <Link href="/auth" className="btn xl magenta">✦  CREAR CUENTA</Link>
+          </div>
+          <div className="hero-scroll" aria-hidden="true">
+            <span>DESLIZA</span>
+            <span className="arrow">▼</span>
+          </div>
         </div>
       </section>
 
-      <div className="av-filters">
-        <div className="av-search">
-          <span className="ico">⌕</span>
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar un juego por nombre…" />
+      {/* WHY */}
+      <section className="home-section reveal">
+        <div className="section-head">
+          <div className="kicker pixel neon-magenta">{"// 01"}</div>
+          <h2 className="section-title">¿POR QUÉ ARCADE VAULT?</h2>
+          <div className="section-rule"></div>
         </div>
-        <div className="av-chips">
-          {CATS.map((c) => (
-            <button key={c} className={"chip" + (cat === c ? " active" : "")} onClick={() => setCat(c)}>
-              {c}
-            </button>
+        <div className="feature-grid">
+          {FEATURES.map((f, i) => (
+            <div key={f.i} className={"feature-card " + f.c} style={{ transitionDelay: i * 80 + "ms" }}>
+              <FeatureIcon kind={f.i} />
+              <div className="ft-title pixel">{f.t}</div>
+              <div className="ft-desc">{f.d}</div>
+            </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="av-grid">
-        {filtered.map((g) => (
-          <GameCard key={g.id} game={g} onSelect={goToGame} />
-        ))}
-        {filtered.length === 0 && (
-          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: 80, color: "var(--ink-faint)" }}>
-            <div className="pixel" style={{ fontSize: 14, color: "var(--magenta)", marginBottom: 12 }}>
-              NO HAY RESULTADOS
+      {/* GAMES PREVIEW */}
+      <section className="home-section reveal">
+        <div className="section-head">
+          <div className="kicker pixel neon-cyan">{"// 02"}</div>
+          <h2 className="section-title">JUEGOS DISPONIBLES AHORA</h2>
+          <div className="section-rule"></div>
+        </div>
+        <div className="mini-rail">
+          {GAMES.slice(0, 6).map((g) => (
+            <MiniCard key={g.id} game={g} />
+          ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 24 }}>
+          <Link href="/biblioteca" className="btn lg">VER TODOS LOS JUEGOS →</Link>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="home-stats reveal">
+        <div className="stats-inner">
+          {stats.map((st, i) => (
+            <div key={st.u} className="stat-block" style={{ transitionDelay: i * 90 + "ms" }}>
+              <div className="stat-n neon-yellow">{st.n}</div>
+              <div className="stat-u pixel">{st.u}</div>
+              <div className="stat-s">{st.s}</div>
             </div>
-            <div>Intenta otra búsqueda o categoría.</div>
+          ))}
+        </div>
+      </section>
+
+      {/* RECENT ACTIVITY / LEADERBOARD */}
+      <section className="home-section reveal">
+        <div className="section-head">
+          <div className="kicker pixel neon-yellow">{"// 03"}</div>
+          <h2 className="section-title">ACTIVIDAD EN VIVO</h2>
+          <div className="section-rule"></div>
+        </div>
+        <div className="activity-grid">
+          <div className="activity-card">
+            <div className="ac-head">
+              <div className="ac-title pixel">▸ ÚLTIMAS PUNTUACIONES</div>
+            </div>
+            <div className="ticker">
+              {recent.map((r, i) => (
+                <div key={i} className="tick-row" style={{ animationDelay: i * 60 + "ms" }}>
+                  <span className={"tk-p neon-" + r.c}>{r.p}</span>
+                  <span className="tk-mid">▸ {r.g}</span>
+                  <span className="tk-s">+{fmt(r.s)}</span>
+                  <span className="tk-t">{r.t}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        )}
-      </div>
+
+          <div className="activity-card">
+            <div className="ac-head">
+              <div className="ac-title pixel neon-magenta">▸ TOP JUGADORES · HOY</div>
+              <Link href="/salon" className="lb-link">VER SALÓN →</Link>
+            </div>
+            <div className="top-list">
+              {top.map((r, i) => (
+                <div key={r.r} className={"top-row" + (i === 0 ? " top1" : i === 1 ? " top2" : i === 2 ? " top3" : "")}>
+                  <span className="tp-rk">#{String(r.r).padStart(2, "0")}</span>
+                  <span className="tp-bar"><span className="tp-fill" style={{ width: 100 - i * 16 + "%" }}></span></span>
+                  <span className="tp-p">{r.p}</span>
+                  <span className="tp-s">{fmt(r.s)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section className="home-section reveal">
+        <div className="section-head">
+          <div className="kicker pixel neon-green">{"// 04"}</div>
+          <h2 className="section-title">PRECIOS</h2>
+          <div className="section-rule"></div>
+        </div>
+        <div className="pricing-grid">
+          <div className="price-card">
+            <div className="pc-label pixel">PLAN ÚNICO</div>
+            <div className="pc-name pixel">JUGADOR VAULT</div>
+            <div className="pc-amount">
+              <span className="pc-amount-n">$0</span>
+              <span className="pc-amount-u">/ SIEMPRE</span>
+            </div>
+            <div className="pc-tag">SIN TRUCOS · SIN LETRA PEQUEÑA</div>
+            <ul className="pc-list">
+              <li>✔ Acceso a todos los juegos</li>
+              <li>✔ Ranking global y salón de la fama</li>
+              <li>✔ Sin anuncios entre partidas</li>
+              <li>✔ Guarda tus puntuaciones</li>
+              <li>✔ Nuevos juegos cada mes</li>
+              <li>✔ Funciona en cualquier navegador</li>
+            </ul>
+            <Link href="/auth" className="btn xl pulse" style={{ width: "100%" }}>EMPEZAR GRATIS →</Link>
+            <div className="pc-foot">No pedimos tarjeta. Nunca lo haremos.</div>
+            <div className="pc-stamp pixel">FREE<br />PLAY</div>
+          </div>
+
+          <div className="pricing-faq">
+            <div className="faq-item">
+              <div className="faq-q pixel">¿REALMENTE ES GRATIS?</div>
+              <div className="faq-a">Sí. Arcade Vault es un proyecto sin fines de lucro hecho por amor a los clásicos. No hay versión &quot;premium&quot; escondida.</div>
+            </div>
+            <div className="faq-item">
+              <div className="faq-q pixel">¿NECESITO CREAR CUENTA?</div>
+              <div className="faq-a">No. Puedes jugar como invitado. Si quieres guardar tu puntuación y aparecer en el ranking, regístrate en 10 segundos.</div>
+            </div>
+            <div className="faq-item">
+              <div className="faq-q pixel">¿CÓMO SOBREVIVEN SIN COBRAR?</div>
+              <div className="faq-a">Es un proyecto comunitario. Si te gusta, compártelo. Esa es toda la moneda que aceptamos.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="home-final reveal">
+        <h2 className="final-title pixel">¿LISTO PARA JUGAR?</h2>
+        <Link href="/biblioteca" className="btn xl pulse final-cta">INSERTAR MONEDA →</Link>
+        <div className="final-tag">Gratis. Sin registro obligatorio. Empieza en segundos.</div>
+      </section>
     </div>
   );
 }
