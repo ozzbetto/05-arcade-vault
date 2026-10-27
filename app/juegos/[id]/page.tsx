@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GAMES, seededScores } from "@/lib/data";
+import { PersonalBest } from "@/components/PersonalBest";
 
 export default async function GameDetailPage({ params }: PageProps<"/juegos/[id]">) {
   const { id } = await params;
@@ -37,6 +38,7 @@ export default async function GameDetailPage({ params }: PageProps<"/juegos/[id]
                 {game.best.toLocaleString("es-ES")}
               </div>
             </div>
+            <PersonalBest gameId={game.id} />
             <div>
               <div className="l">Dificultad</div>
               <div className="v" style={{ color: "var(--yellow)", textShadow: "0 0 6px rgba(245,255,0,0.5)" }}>

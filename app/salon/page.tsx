@@ -5,17 +5,17 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GAMES, seededScores } from "@/lib/data";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, bestScoreOf } from "@/lib/auth-context";
 
 export default function HallOfFamePage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, scores } = useAuth();
   const [tab, setTab] = useState(GAMES[0].id);
 
   const rows = useMemo(() => seededScores(tab.length * 23 + 7, 12), [tab]);
   const game = GAMES.find((g) => g.id === tab)!;
-  const youRank = user ? Math.floor(8 + (tab.length % 4)) : null;
-  const youScore = user ? rows[5]?.score - 2400 : null;
+  const best = bestScoreOf(scores, tab);
+  const youRank = best ? rows.filter((r) => r.score > best.score).length + 1 : null;
 
   return (
     <div className="av-hall fade-in">
@@ -76,14 +76,24 @@ export default function HallOfFamePage() {
         {user && (
           <>
             <div className="tr you-label">▸ TU MEJOR MARCA EN {game.title}</div>
-            <div className="tr you" style={{ animationDelay: `${rows.length * 50 + 50}ms` }}>
-              <div className="rk" style={{ color: "var(--yellow)" }}>#{String(youRank).padStart(2, "0")}</div>
-              <div className="pl" style={{ color: "var(--yellow)" }}>{user.name}</div>
-              <div className="sc" style={{ color: "var(--yellow)", textShadow: "0 0 6px rgba(245,255,0,0.5)" }}>
-                {(youScore || 9999).toLocaleString("es-ES")}
+            {best ? (
+              <div className="tr you" style={{ animationDelay: `${rows.length * 50 + 50}ms` }}>
+                <div className="rk" style={{ color: "var(--yellow)" }}>
+                  {youRank! <= rows.length ? `#${String(youRank).padStart(2, "0")}` : "—"}
+                </div>
+                <div className="pl" style={{ color: "var(--yellow)" }}>{best.name}</div>
+                <div className="sc" style={{ color: "var(--yellow)", textShadow: "0 0 6px rgba(245,255,0,0.5)" }}>
+                  {best.score.toLocaleString("es-ES")}
+                </div>
+                <div className="dt">{new Date(best.at).toLocaleDateString("es-ES")}</div>
               </div>
-              <div className="dt">11/05/2026</div>
-            </div>
+            ) : (
+              <div className="tr you">
+                <div className="pl" style={{ gridColumn: "1 / -1", color: "var(--ink-dim)" }}>
+                  AÚN NO HAS GUARDADO UNA MARCA EN ESTE JUEGO
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

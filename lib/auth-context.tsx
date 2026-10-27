@@ -54,8 +54,44 @@ export type ScoreEntry = {
   at: number;
 };
 
+// Marcas guardadas (av_scores). Se conservan al cerrar sesión: son del dispositivo.
+const EMPTY_SCORES: ScoreEntry[] = [];
+let cachedScores: ScoreEntry[] = EMPTY_SCORES;
+let scoresHydrated = false;
+
+function readScores(): ScoreEntry[] {
+  try {
+    const parsed = JSON.parse(localStorage.getItem("av_scores") || "[]");
+    return Array.isArray(parsed) ? parsed : EMPTY_SCORES;
+  } catch {
+    return EMPTY_SCORES;
+  }
+}
+
+function getScoresSnapshot(): ScoreEntry[] {
+  if (!scoresHydrated) {
+    cachedScores = readScores();
+    scoresHydrated = true;
+  }
+  return cachedScores;
+}
+
+function getServerScoresSnapshot(): ScoreEntry[] {
+  return EMPTY_SCORES;
+}
+
+/** Mejor marca real guardada para un juego, o null si no hay ninguna. */
+export function bestScoreOf(scores: ScoreEntry[], gameId: string): ScoreEntry | null {
+  let best: ScoreEntry | null = null;
+  for (const s of scores) {
+    if (s.game === gameId && (!best || s.score > best.score)) best = s;
+  }
+  return best;
+}
+
 type AuthContextValue = {
   user: AuthUser;
+  scores: ScoreEntry[];
   login: (user: NonNullable<AuthUser>) => void;
   signOut: () => void;
   saveScore: (entry: Omit<ScoreEntry, "at">) => void;
@@ -68,6 +104,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     subscribeUser,
     getUserSnapshot,
     getServerUserSnapshot,
+  );
+
+  const scores = useSyncExternalStore(
+    subscribeUser,
+    getScoresSnapshot,
+    getServerScoresSnapshot,
   );
 
   const login = (u: NonNullable<AuthUser>) => {
@@ -85,13 +127,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const all = JSON.parse(localStorage.getItem("av_scores") || "[]");
       all.push({ ...entry, at: Date.now() });
       localStorage.setItem("av_scores", JSON.stringify(all));
+      cachedScores = all;
+      listeners.forEach((listener) => listener());
     } catch {
       // localStorage no disponible: ignorar el guardado
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signOut, saveScore }}>
+    <AuthContext.Provider value={{ user, scores, login, signOut, saveScore }}>
       {children}
     </AuthContext.Provider>
   );
