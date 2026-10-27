@@ -1,0 +1,15 @@
+# Labels de issues según palabras en el título o el cuerpo (case-insensitive).
+# Solo corre al abrir el issue: github/issue-labeler quita el label si el regex
+# deja de coincidir, y con `edited` borraría labels puestos a mano.
+bug:
+  - '/(bug|error|falla|no funciona|se cuelga|colgado|roto|crash)/i'
+ux:
+  - '/(css|estilo|scroll|solape|responsive|móvil|visual|diseño|layout)/i'
+deuda-tecnica:
+  - '/(deuda|refactor|duplicad|limpiar|mantenimiento)/i'
+enhancement:
+  - '/(feature|funcionalidad|agregar|implementar|nueva|nuevo)/i'
+spec:
+  - '/(spec)/i'
+documentation:
+  - '/(documentaci|readme|claude\.md)/i'

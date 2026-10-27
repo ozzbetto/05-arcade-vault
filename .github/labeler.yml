@@ -1,0 +1,15 @@
+# Labels de PRs según los archivos que tocan (actions/labeler).
+ux:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/globals.css
+          - components/**
+spec:
+  - changed-files:
+      - any-glob-to-any-file: specs/**
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - README.md
+          - CLAUDE.md
+          - AGENTS.md
