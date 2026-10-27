@@ -43,9 +43,15 @@ export function Nav() {
           <span>CRÉDITOS · 03</span>
         </div>
         {user ? (
-          <button className="btn ghost auth-btn" onClick={signOut}>{user.name} ▾</button>
+          <button className="btn ghost auth-btn" onClick={signOut} aria-label={user.name}>
+            <span className="auth-label">{user.name} ▾</span>
+            <span className="auth-icon" aria-hidden="true">{user.name.charAt(0).toUpperCase()}</span>
+          </button>
         ) : (
-          <Link href="/auth" className="btn auth-btn">Iniciar Sesión</Link>
+          <Link href="/auth" className="btn auth-btn" aria-label="Iniciar Sesión">
+            <span className="auth-label">Iniciar Sesión</span>
+            <span className="auth-icon" aria-hidden="true">⏻</span>
+          </Link>
         )}
         <button className="btn ghost hamburger" onClick={() => setOpen(true)} aria-label="Menú">≡</button>
       </nav>

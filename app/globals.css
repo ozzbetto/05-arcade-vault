@@ -264,6 +264,13 @@ a {
 .av-nav .hamburger {
   display: none;
 }
+.av-nav .auth-icon {
+  display: none;
+}
+.av-nav .logo,
+.av-nav .auth-btn {
+  min-width: 0;
+}
 
 @media (max-width: 840px) {
   .av-nav {
@@ -281,6 +288,27 @@ a {
   }
   .av-nav .hamburger {
     display: inline-flex;
+  }
+}
+
+/* ≤520px: logo compacto y botón de sesión reducido a ícono */
+@media (max-width: 520px) {
+  .av-nav .logo-text {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .av-nav .auth-label {
+    display: none;
+  }
+  .av-nav .auth-icon {
+    display: inline;
+  }
+}
+
+/* ≤360px: el acceso a sesión queda solo en el panel móvil */
+@media (max-width: 360px) {
+  .av-nav .auth-btn {
+    display: none;
   }
 }
 
