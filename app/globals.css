@@ -1584,7 +1584,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 32px 60px;
+  padding: 80px 32px 96px;
   overflow: hidden;
 }
 .home-hero-inner {
@@ -1642,8 +1642,9 @@ a {
 }
 .hero-scroll {
   position: absolute;
+  z-index: 3;
   left: 50%;
-  bottom: -20px;
+  bottom: 24px;
   transform: translateX(-50%);
   font-family: var(--pixel);
   font-size: 9px;
