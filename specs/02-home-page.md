@@ -69,6 +69,7 @@ Las features, el plan de precios y las 3 FAQ son contenido estático del compone
 - **Helpers determinísticos** (sin `Math.random`/`Date.now`) para evitar errores de hidratación; "hace N min" es mock.
 - **Reutilizar el CSS del template** en `globals.css` en lugar de reescribir a utilities de Tailwind (misma decisión que spec 01).
 - **Saltear `/frontend-design`**: el diseño ya existe en el template.
+- **Desviación del template: "DESLIZA" anclado al hero (issue #10).** En el template `.hero-scroll` usa `bottom: -20px` dentro de `.home-hero-inner` y se solapa ~15 px con `.home-ctas` (top ≈ 739 px contra bottom ≈ 754 px a 1440 px; también en móvil, donde los CTAs se apilan). Se corrige: `.hero-scroll` pasa a ser hijo directo de `.home-hero` (que ya tiene `position: relative`) con `bottom: 24px` y `z-index: 3`, y `.home-hero` sube `padding-bottom` de 60px a 96px para reservar su espacio. Descartado: solo cambiar `bottom` a ~`-64px`, porque seguiría acoplado a la altura del contenido. Costo: ya no es pixel-perfect con el template en ese punto.
 
 ## Riesgos identificados
 
