@@ -1,6 +1,6 @@
 # 03 — Acerca de y Contacto (envío con Resend)
 
-**Estado:** Aprobado
+**Estado:** Implemented
 **Depende de:** SPEC 01, SPEC 02
 **Fecha:** 2026-11-01
 
