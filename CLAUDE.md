@@ -69,7 +69,7 @@ Specs live in `specs/` (config in `specs/.spec-config.yml`). Current specs:
 - `02-home-page.md` — Implemented.
 - `03-about-contacto-resend.md` — Implemented.
 
-Next step: spec 02 (backend/persistence, real auth, first playable game — all still pending).
+Next step: spec 04 (backend/persistence, real auth, first playable game — all still pending).
 
 ## Next.js version caveat
 
