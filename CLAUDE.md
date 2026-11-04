@@ -6,23 +6,33 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Arcade Vault ("Es una plataforma para jugar online y competir por la mayor cantidad de puntos") is a Next.js 16 App Router project. The MVP visual (spec 01, `Implemented`) is done: 5 screens ported from the static prototype in `references/templates/`, all backed by mock data. There is no backend, no real auth and no playable game yet.
+Arcade Vault ("Es una plataforma para jugar online y competir por la mayor cantidad de puntos") is a Next.js 16 App Router project. The visual MVP (spec 01), the landing page (spec 02) and the About/Contact page (spec 03) are `Implemented`: 7 screens ported from the static prototype in `references/templates/`, backed by mock data. The only server-side piece is the contact form Route Handler (Resend). There is no database, no real auth and no playable game yet.
 
 Stack: Next.js 16.3.5, React 19.2.8, TypeScript, Tailwind CSS v4 (via `@tailwindcss/postcss`), ESLint 9 flat config (`eslint-config-next`).
 
 ### Structure
 
 - `app/layout.tsx` — root layout: fonts (`next/font/google`: Press Start 2P + JetBrains Mono), background layers, `AuthProvider`, `Nav` and footer.
-- `app/page.tsx` — `/` Biblioteca (search + category filter).
+- `app/page.tsx` — `/` Home / landing (hero, stats, featured games, recent scores).
+- `app/biblioteca/page.tsx` — `/biblioteca` Biblioteca (search + category filter).
+- `app/acerca-de/page.tsx` — `/acerca-de` About + contact form.
+- `app/api/contact/route.ts` — `POST /api/contact`: validates the payload and sends the email with Resend.
 - `app/juegos/[id]/page.tsx` — `/juegos/[id]` game detail with leaderboard.
 - `app/juegos/[id]/jugar/` — `/juegos/[id]/jugar` player (`page.tsx` + `GamePlayer.tsx`); score simulated with `setInterval`, no game engine.
 - `app/auth/page.tsx` — `/auth` mock login / sign-up / guest.
 - `app/salon/page.tsx` — `/salon` Hall of Fame (podium + table per game).
 - `components/Nav.tsx` — global nav (desktop + mobile panel, breakpoint 840px).
-- `lib/data.ts` — mock `GAMES`, `CATS`, `PLAYERS` and `seededScores`.
+- `components/home/` — landing components (`FeatureIcon`, `FloatingSilhouettes`, `MiniCard`, `Reveal` scroll-reveal).
+- `components/about/` — `ContactForm`, `HighlightIcon`.
+- `lib/contact.ts` — contact form types and validation, shared by the form and the Route Handler.
+- `lib/data.ts` — mock `GAMES`, `CATS`, `PLAYERS`, `seededScores` and the landing helpers (`homeStats`, `recentScores`, `topToday`).
 - `lib/auth-context.tsx` — `AuthProvider`/`useAuth` (`user`, `login`, `signOut`, `saveScore`) backed by `localStorage` (`av_user`, `av_scores`).
 - `app/globals.css` — all styles, ported from the template's `styles.css` onto Tailwind v4 `@theme inline` tokens.
 - `references/` — static prototype used as visual reference; excluded from ESLint.
+
+### Environment variables
+
+Copy `.env.template` to `.env.local`. The contact form needs `RESEND_API_KEY` and `CONTACT_TO_EMAIL`; `RESEND_FROM_EMAIL` is optional (falls back to a default sender).
 
 ### Known limitations
 
@@ -56,8 +66,10 @@ Prefer writing/updating a spec before implementing a feature, then use `/spec-im
 Specs live in `specs/` (config in `specs/.spec-config.yml`). Current specs:
 
 - `01-mvp-pantallas-arcade-vault.md` — Implemented.
+- `02-home-page.md` — Implemented.
+- `03-about-contacto-resend.md` — Implemented.
 
-Next step: spec 02 (backend/persistence, real auth, first playable game — all out of scope of spec 01).
+Next step: spec 04 (backend/persistence, real auth, first playable game — all still pending).
 
 ## Next.js version caveat
 
