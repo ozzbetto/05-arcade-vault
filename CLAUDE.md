@@ -25,6 +25,7 @@ Stack: Next.js 16.3.5, React 19.2.8, TypeScript, Tailwind CSS v4 (via `@tailwind
 - `components/home/` — landing components (`FeatureIcon`, `FloatingSilhouettes`, `MiniCard`, `Reveal` scroll-reveal).
 - `components/about/` — `ContactForm`, `HighlightIcon`.
 - `lib/contact.ts` — contact form types and validation, shared by the form and the Route Handler.
+- `lib/supabase.ts` — `createSupabaseClient()`: cliente de Supabase (`@supabase/supabase-js`) creado con las variables `NEXT_PUBLIC_SUPABASE_*`; lanza error si faltan. Aún no lo usa ninguna pantalla.
 - `lib/data.ts` — mock `GAMES`, `CATS`, `PLAYERS`, `seededScores` and the landing helpers (`homeStats`, `recentScores`, `topToday`).
 - `lib/auth-context.tsx` — `AuthProvider`/`useAuth` (`user`, `login`, `signOut`, `saveScore`) backed by `localStorage` (`av_user`, `av_scores`).
 - `app/globals.css` — all styles, ported from the template's `styles.css` onto Tailwind v4 `@theme inline` tokens.
@@ -32,7 +33,7 @@ Stack: Next.js 16.3.5, React 19.2.8, TypeScript, Tailwind CSS v4 (via `@tailwind
 
 ### Environment variables
 
-Copy `.env.template` to `.env.local`. The contact form needs `RESEND_API_KEY` and `CONTACT_TO_EMAIL`; `RESEND_FROM_EMAIL` is optional (falls back to a default sender).
+Copy `.env.template` to `.env.local`. The contact form needs `RESEND_API_KEY` and `CONTACT_TO_EMAIL`; `RESEND_FROM_EMAIL` is optional (falls back to a default sender). Supabase needs `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (public, inlined at build time: restart `npm run dev` after changing them).
 
 ### Known limitations
 
@@ -68,8 +69,9 @@ Specs live in `specs/` (config in `specs/.spec-config.yml`). Current specs:
 - `01-mvp-pantallas-arcade-vault.md` — Implemented.
 - `02-home-page.md` — Implemented.
 - `03-about-contacto-resend.md` — Implemented.
+- `04-integracion-supabase.md` — Approved (Supabase integrated: dependencies, env vars and `lib/supabase.ts`; no tables, not used by any screen).
 
-Next step: spec 04 (backend/persistence, real auth, first playable game — all still pending).
+Next step: spec 05 (persistence on top of Supabase, real auth, first playable game — all still pending).
 
 ## Next.js version caveat
 
